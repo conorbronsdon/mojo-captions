@@ -1,0 +1,22 @@
+WEBVTT - Chain of Thought sample
+Kind: captions
+
+NOTE
+This comment block should be skipped.
+
+STYLE
+::cue { color: papayawhip }
+
+intro
+00:01.000 --> 00:04.000 position:10%,line-left align:start
+<v Conor Bronsdon>Welcome to the show.</v>
+
+2
+00:00:04.500 --> 00:00:08.250
+A cue with text
+across two lines.
+
+NOTE inline comment, also skipped
+
+00:00:08.300 --> 00:00:12.000
+Guest: Thanks for having me.

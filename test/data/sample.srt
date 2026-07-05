@@ -1,0 +1,19 @@
+1
+00:00:01,000 --> 00:00:04,000
+Conor Bronsdon: Welcome back to Chain of Thought.
+
+2
+00:00:04,500 --> 00:00:08,250
+This cue has text
+that spans two lines.
+
+3
+00:00:08,300 --> 00:00:12,000
+Guest: Thanks for having me.
+
+4
+00:00:12,500 --> 00:00:13,000
+
+5
+00:00:13,500 --> 00:00:15,000
+Final line.
