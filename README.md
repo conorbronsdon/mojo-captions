@@ -114,12 +114,27 @@ against 1,300+ mutated documents (byte flips, truncations, and structural
 splices) with zero crashes and zero hangs: malformed input either parses
 liberally or is skipped, never fatal.
 
-## Part of the Mojo content-tooling suite
+## Part of a pure-Mojo library suite
 
-- [mojo-feed](https://github.com/conorbronsdon/mojo-feed): RSS, Atom, and
-  JSON Feed parsing.
-- mojo-markdown (coming soon).
-- mojo-html (coming soon).
+Nine pure-Mojo libraries that mirror familiar Python stdlib and PyPI APIs,
+filling gaps in the native Mojo ecosystem:
+
+- [mojo-feed](https://github.com/conorbronsdon/mojo-feed) — RSS, Atom, and
+  JSON Feed parsing (Python's `feedparser`)
+- [mojo-html](https://github.com/conorbronsdon/mojo-html) — HTML parsing and
+  article extraction (Python's readability)
+- [mojo-markdown](https://github.com/conorbronsdon/mojo-markdown) —
+  CommonMark markdown parsing (Python's `markdown`)
+- [mojo-unicodedata](https://github.com/conorbronsdon/mojo-unicodedata) —
+  Unicode normalization and case folding (Python's `unicodedata`)
+- [mojo-diff](https://github.com/conorbronsdon/mojo-diff) — text diffing
+  (Python's `difflib`)
+- [mojo-template](https://github.com/conorbronsdon/mojo-template) — a
+  Jinja-flavored template engine (Python's `jinja2`)
+- [mojo-tar](https://github.com/conorbronsdon/mojo-tar) — tar archive
+  reading and writing (Python's `tarfile`)
+- [mojo-redis](https://github.com/conorbronsdon/mojo-redis) — a Redis
+  client (Python's `redis-py`)
 
 ## Contributing
 
