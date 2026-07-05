@@ -25,8 +25,3 @@ jobs:
 
       - name: Tests
         run: .venv/bin/mojo run -I src test/test_captions.mojo
-
-
-
-
-        run: |
