@@ -9,6 +9,8 @@
 [![Podcast](https://img.shields.io/badge/Podcast-Chain_of_Thought-purple?style=flat-square)](https://chainofthought.show)
 [![X](https://img.shields.io/badge/X-@ConorBronsdon-black?style=flat-square&logo=x)](https://x.com/ConorBronsdon)
 
+<img src="docs/demo.gif" alt="Demo: parsing a WebVTT transcript into cues with speakers and timestamps, in pure Mojo" width="800">
+
 </div>
 
 As of mid-2026 the Mojo ecosystem has no library for reading subtitle or
