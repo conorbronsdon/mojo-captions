@@ -20,6 +20,22 @@ with Chain of Thought's own episode transcripts: pulling quotes for show
 notes, picking the timestamp window for a clip, and turning an SRT or VTT
 export into a clean transcript.
 
+### Coming from Python
+
+There is no Python stdlib equivalent for subtitles — the closest third-party
+library is `webvtt-py`. The rough mapping:
+
+| Python (`webvtt-py`, closest)       | mojo-captions                          |
+| ----------------------------------- | -------------------------------------- |
+| `vtt = webvtt.read("f.vtt")`        | `var caps = parse_captions(source)`    |
+| `for c in vtt: c.text`              | `for cue in caps.cues: cue.text`       |
+| `c.start` / `c.end`                 | `cue.start_ms` / `cue.end_ms`          |
+| `vtt.save_as_srt(...)`              | `to_srt(caps)` (also `to_vtt(caps)`)   |
+
+mojo-captions parses both SRT and WebVTT (detected automatically), and adds
+transcript helpers with no `webvtt-py` parallel: `plain_text(caps)`,
+`cues_between(caps, start_ms, end_ms)`, and `duration_ms(caps)`.
+
 ## What it handles
 
 - **Auto-detection**: a leading `WEBVTT` header means WebVTT, anything else
@@ -116,9 +132,11 @@ liberally or is skipped, never fatal.
 
 ## Part of a pure-Mojo library suite
 
-Ten pure-Mojo libraries that mirror familiar Python stdlib and PyPI APIs,
+Eleven pure-Mojo libraries that mirror familiar Python stdlib and PyPI APIs,
 filling gaps in the native Mojo ecosystem:
 
+- [mojo-xml](https://github.com/conorbronsdon/mojo-xml) — general-purpose XML
+  parsing, an ElementTree-shaped DOM (Python's `xml.etree.ElementTree`)
 - [mojo-feed](https://github.com/conorbronsdon/mojo-feed) — RSS, Atom, and
   JSON Feed parsing (Python's `feedparser`)
 - [mojo-html](https://github.com/conorbronsdon/mojo-html) — HTML parsing and
