@@ -11,4 +11,4 @@ test = "mojo run -I src test/test_captions.mojo"
 demo = "mojo run -I src examples/clip_transcript.mojo test/data/sample.vtt 0 20000"
 
 [dependencies]
-mojo = ">=1.0.0b3,<2"
+mojo = ">=1.0.0b3.dev0,<2"

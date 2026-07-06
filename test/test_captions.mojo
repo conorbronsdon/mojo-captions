@@ -334,6 +334,51 @@ def test_srt_glued_cues_without_blank_line() raises:
     assert_equal(caps.cues[1].text, "Second cue text.")
 
 
+def test_arrow_in_cue_text_not_a_boundary() raises:
+    """A `-->` inside cue text is prose, not a timing line: the cue must
+    survive whole rather than being split (or discarded) as a boundary."""
+    var caps = parse_captions(
+        String("1\n00:00:01,000 --> 00:00:02,000\nUse map --> filter here.\n")
+    )
+    assert_equal(len(caps.cues), 1)
+    assert_equal(caps.cues[0].text, "Use map --> filter here.")
+    # And it must round-trip through both serializers unchanged.
+    var via_srt = parse_captions(to_srt(caps))
+    assert_equal(len(via_srt.cues), 1)
+    assert_equal(via_srt.cues[0].text, "Use map --> filter here.")
+    var via_vtt = parse_captions(to_vtt(caps))
+    assert_equal(len(via_vtt.cues), 1)
+    assert_equal(via_vtt.cues[0].text, "Use map --> filter here.")
+
+
+def test_arrow_in_multiline_text_preserved() raises:
+    """A `-->` on a later text line must not truncate the cue or spawn a
+    bogus second cue; the full multi-line text is kept."""
+    var caps = parse_captions(
+        String(
+            "1\n00:00:01,000 --> 00:00:02,000\n"
+            "first line\nx --> y transform\nthird line\n"
+        )
+    )
+    assert_equal(len(caps.cues), 1)
+    assert_equal(caps.cues[0].text, "first line\nx --> y transform\nthird line")
+
+
+def test_arrow_text_still_splits_glued_real_cue() raises:
+    """Even when a cue's text holds a `-->`, a genuinely glued second cue
+    (a real timing line, no blank separator) is still split out."""
+    var caps = parse_captions(
+        String(
+            "1\n00:00:01,000 --> 00:00:02,000\nUse map --> filter here.\n"
+            "2\n00:00:03,000 --> 00:00:04,000\nSecond cue text.\n"
+        )
+    )
+    assert_equal(len(caps.cues), 2)
+    assert_equal(caps.cues[0].text, "Use map --> filter here.")
+    assert_equal(caps.cues[1].index, 2)
+    assert_equal(caps.cues[1].text, "Second cue text.")
+
+
 def test_srt_explicit_zero_index_roundtrip() raises:
     """An explicit cue number of 0 is a real index, not the "absent"
     sentinel, and must survive a to_srt round trip unchanged."""
