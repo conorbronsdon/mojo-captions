@@ -176,6 +176,24 @@ def _parse_timing(line: String, mut start_ms: Int, mut end_ms: Int) raises:
     end_ms = _parse_ts(right)
 
 
+def _is_timing_line(line: String) -> Bool:
+    """Whether `line` is a genuine `timestamp --> timestamp` timing line.
+
+    Cue text may legitimately contain `-->` (e.g. "map --> filter", or a
+    Unicode-arrow gloss), so a bare `-->` substring is not enough to mark
+    a line as a cue boundary; both sides must parse as timestamps.
+    """
+    if line.find("-->") == -1:
+        return False
+    var start_ms = 0
+    var end_ms = 0
+    try:
+        _parse_timing(line, start_ms, end_ms)
+    except:
+        return False
+    return True
+
+
 def _strip_voice_tags(text: String, mut speaker: String) -> String:
     """Remove `<v ...>` / `</v>` markup; record the first voice's name."""
     if text.find("<v") == -1:
@@ -285,7 +303,7 @@ def _parse_block(lines: List[String], start: Int, end: Int) raises -> List[Cue]:
     while seg_start < end:
         var t = -1
         for j in range(seg_start, end):
-            if lines[j].find("-->") != -1:
+            if _is_timing_line(lines[j]):
                 t = j
                 break
         if t == -1:
@@ -299,14 +317,24 @@ def _parse_block(lines: List[String], start: Int, end: Int) raises -> List[Cue]:
                 index = index * 10 + Int(b) - ord("0")
         var start_ms = 0
         var end_ms = 0
-        _parse_timing(lines[t], start_ms, end_ms)
+        # Isolate each segment's parse: a malformed timing line skips just
+        # this segment, never discarding cues already gathered from the
+        # block. `_is_timing_line` already validated `lines[t]`, so this
+        # is defense-in-depth against divergence between the two.
+        try:
+            _parse_timing(lines[t], start_ms, end_ms)
+        except:
+            seg_start = t + 1
+            continue
         # A block can hold a second (or third...) cue glued on with no
         # blank-line separator. If a later "text" line is itself a
         # timing line, that's where this cue's text ends and the next
         # cue begins — including its optional index line just before it.
+        # A bare `-->` inside cue text is not a boundary; only a line that
+        # parses as `timestamp --> timestamp` is.
         var text_end = end
         for j in range(t + 1, end):
-            if lines[j].find("-->") != -1:
+            if _is_timing_line(lines[j]):
                 if j > t + 1 and _is_all_digits(lines[j - 1]):
                     text_end = j - 1
                 else:
