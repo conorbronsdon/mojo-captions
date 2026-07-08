@@ -56,7 +56,9 @@ def test_srt_multiline_text() raises:
 
 def test_srt_speaker_colon_convention() raises:
     var caps = parse_captions(
-        String("1\n00:00:01,000 --> 00:00:04,000\nConor Bronsdon: Welcome back.\n")
+        String(
+            "1\n00:00:01,000 --> 00:00:04,000\nConor Bronsdon: Welcome back.\n"
+        )
     )
     assert_equal(caps.cues[0].speaker, "Conor Bronsdon")
     assert_equal(caps.cues[0].text, "Welcome back.")
@@ -81,7 +83,10 @@ def test_vtt_hourless_timestamps() raises:
 
 def test_vtt_voice_span_speaker() raises:
     var caps = parse_captions(
-        String("WEBVTT\n\n00:01.000 --> 00:04.000\n<v Conor Bronsdon>Welcome.</v>\n")
+        String(
+            "WEBVTT\n\n00:01.000 --> 00:04.000\n<v Conor"
+            " Bronsdon>Welcome.</v>\n"
+        )
     )
     assert_equal(caps.cues[0].speaker, "Conor Bronsdon")
     assert_equal(caps.cues[0].text, "Welcome.")
@@ -229,9 +234,9 @@ def test_roundtrip_srt() raises:
 def test_roundtrip_vtt() raises:
     var original = parse_captions(
         String(
-            "WEBVTT\n\n"
-            "1\n00:00:01.000 --> 00:00:04.000\n<v Conor Bronsdon>Hello there.</v>\n\n"
-            "2\n01:02:03.456 --> 01:02:05.789\nTwo lines\nof text.\n"
+            "WEBVTT\n\n1\n00:00:01.000 --> 00:00:04.000\n<v Conor"
+            " Bronsdon>Hello there.</v>\n\n2\n01:02:03.456 -->"
+            " 01:02:05.789\nTwo lines\nof text.\n"
         )
     )
     var reparsed = parse_captions(to_vtt(original))

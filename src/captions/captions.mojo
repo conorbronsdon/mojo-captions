@@ -92,9 +92,7 @@ def _split_lines(source: String) -> List[String]:
         var end = len(data)
         if data[end - 1] == _CR:
             end -= 1
-        lines.append(
-            String(StringSlice(unsafe_from_utf8=data[line_start:end]))
-        )
+        lines.append(String(StringSlice(unsafe_from_utf8=data[line_start:end])))
     return lines^
 
 
@@ -212,8 +210,10 @@ def _strip_voice_tags(text: String, mut speaker: String) -> String:
             ):
                 i += 4
                 continue
-            if i + 2 < n and bytes[i + 1] == _V and (
-                _is_space(bytes[i + 2]) or bytes[i + 2] == _DOT
+            if (
+                i + 2 < n
+                and bytes[i + 1] == _V
+                and (_is_space(bytes[i + 2]) or bytes[i + 2] == _DOT)
             ):
                 var gt = i + 2
                 while gt < n and bytes[gt] != _GT:
