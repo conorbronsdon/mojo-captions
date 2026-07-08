@@ -5,7 +5,7 @@ comptime KIND_VTT = "vtt"
 
 
 @fieldwise_init
-struct Cue(Copyable, Movable, Writable, Equatable):
+struct Cue(Copyable, Equatable, Movable, Writable):
     """One subtitle cue. Empty string means the field was absent.
 
     `index` is the SRT cue number or the numeric WebVTT cue identifier;
