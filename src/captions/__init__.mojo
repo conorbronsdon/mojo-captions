@@ -1,4 +1,4 @@
-"""mojo-captions: SRT and WebVTT subtitle/transcript parsing for Mojo."""
+"""SRT and WebVTT subtitle/transcript parsing for Mojo (mojo-captions)."""
 
 from captions.model import Cue, Captions, KIND_SRT, KIND_VTT
 from captions.captions import (
